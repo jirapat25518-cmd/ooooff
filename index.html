@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>สูตรพื้นที่ & ตรีโกณมิติ</title>
+<style>
+  body { font-family: Arial; padding: 20px; background:#f6f6f6; }
+  h1 { text-align:center; }
+  .btn { padding:10px 20px; margin:5px; border:none; border-radius:8px; background:#4da6ff; color:white; cursor:pointer; }
+  .box { margin-top:20px; padding:20px; background:white; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+  input { padding:5px; margin:5px; border-radius:5px; border:1px solid #aaa; width:60px; }
+</style>
+</head>
+<body>
+
+<h1>สูตรพื้นที่ & ตรีโกณมิติ</h1>
+
+<!-- ปุ่มพื้นที่ -->
+<button class="btn" onclick="showAreaForm('triangle')">สามเหลี่ยม</button>
+<button class="btn" onclick="showAreaForm('circle')">วงกลม</button>
+<button class="btn" onclick="showAreaForm('square')">สี่เหลี่ยมจัตุรัส</button>
+<button class="btn" onclick="showAreaForm('trapezoid')">สี่เหลี่ยมคางหมู</button>
+
+<!-- ปุ่มตรีโกณ -->
+<button class="btn" onclick="showTrigForm()">คำนวณ sin/cos/tan</button>
+
+<!-- แสดงผล -->
+<div id="formArea" class="box"></div>
+<div id="resultArea" class="box"></div>
+
+<script>
+// --- ฟังก์ชันพื้นที่ ---
+function showAreaForm(shape){
+  let html="";
+  if(shape==='triangle'){
+    html='<h3>พื้นที่สามเหลี่ยม = 1/2 × ฐาน × สูง</h3>';
+    html+='ฐาน: <input id="base"> สูง: <input id="height"><br>';
+    html+='<button class="btn" onclick="calcTriangle()">คำนวณ</button>';
+  }
+  else if(shape==='circle'){
+    html='<h3>พื้นที่วงกลม = πr²</h3>';
+    html+='รัศมี: <input id="radius"><br>';
+    html+='<button class="btn" onclick="calcCircle()">คำนวณ</button>';
+  }
+  else if(shape==='square'){
+    html='<h3>พื้นที่สี่เหลี่ยมจัตุรัส = ด้าน × ด้าน</h3>';
+    html+='ด้าน: <input id="side"><br>';
+    html+='<button class="btn" onclick="calcSquare()">คำนวณ</button>';
+  }
+  else if(shape==='trapezoid'){
+    html='<h3>พื้นที่สี่เหลี่ยมคางหมู = 1/2 × (ฐานบน+ฐานล่าง)×สูง</h3>';
+    html+='ฐานบน: <input id="top"> ฐานล่าง: <input id="bottom"> สูง: <input id="height2"><br>';
+    html+='<button class="btn" onclick="calcTrapezoid()">คำนวณ</button>';
+  }
+  document.getElementById('formArea').innerHTML=html;
+  document.getElementById('resultArea').innerHTML='';
+}
+
+function calcTriangle(){
+  let b=Number(document.getElementById('base').value);
+  let h=Number(document.getElementById('height').value);
+  document.getElementById('resultArea').innerHTML='พื้นที่ = '+(0.5*b*h);
+}
+function calcCircle(){
+  let r=Number(document.getElementById('radius').value);
+  document.getElementById('resultArea').innerHTML='พื้นที่ = '+(Math.PI*r*r).toFixed(2);
+}
+function calcSquare(){
+  let s=Number(document.getElementById('side').value);
+  document.getElementById('resultArea').innerHTML='พื้นที่ = '+(s*s);
+}
+function calcTrapezoid(){
+  let top=Number(document.getElementById('top').value);
+  let bottom=Number(document.getElementById('bottom').value);
+  let h=Number(document.getElementById('height2').value);
+  document.getElementById('resultArea').innerHTML='พื้นที่ = '+(0.5*(top+bottom)*h);
+}
+
+// --- ฟังก์ชันตรีโกณ ---
+function showTrigForm(){
+  let html='<h3>คำนวณค่า sin/cos/tan</h3>';
+  html+='องศา: <input id="angle" type="number"><br>';
+  html+='<button class="btn" onclick="calcTrig()">คำนวณ</button>';
+  html+='<p id="trigResult"></p>';
+  document.getElementById('formArea').innerHTML=html;
+  document.getElementById('resultArea').innerHTML='';
+}
+
+function calcTrig(){
+  let angle=Number(document.getElementById('angle').value);
+  let result="";
+  if(angle===0) result="sin(0°)=0, cos(0°)=1, tan(0°)=0";
+  else if(angle===30) result="sin(30°)=1/2, cos(30°)=√3/2, tan(30°)=1/√3";
+  else if(angle===45) result="sin(45°)=√2/2, cos(45°)=√2/2, tan(45°)=1";
+  else if(angle===60) result="sin(60°)=√3/2, cos(60°)=1/2, tan(60°)=√3";
+  else if(angle===90) result="sin(90°)=1, cos(90°)=0, tan(90°)=∞";
+  else{
+    let rad=angle*Math.PI/180;
+    result=`sin(${angle})=${Math.sin(rad).toFixed(4)}<br>`;
+    result+=`cos(${angle})=${Math.cos(rad).toFixed(4)}<br>`;
+    result+=`tan(${angle})=${Math.tan(rad).toFixed(4)}`;
+  }
+  document.getElementById('trigResult').innerHTML=result;
+}
+</script>
+
+</body>
+</html>
